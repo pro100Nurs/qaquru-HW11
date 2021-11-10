@@ -1,51 +1,39 @@
 package guru.qa.tests;
 
-import com.github.javafaker.Faker;
+import guru.qa.pages.RegistrationFormPage;
+import guru.qa.testData.StudentData;
 import org.junit.jupiter.api.Test;
 
 public class PracticeFormTests extends TestBase {
 
-    Faker faker = new Faker();
+    RegistrationFormPage registrationFormPage = new RegistrationFormPage();
+    StudentData studentData = new StudentData();
 
     @Test
     void fillStudentRegForm() {
 
-        /* Тестовые данные для формы */
-        String firstName = faker.name().firstName();
-        String lastName = faker.name().lastName();
-        String email = faker.internet().emailAddress();
-        String gender = "Male";
-        String mobilePhone = faker.phoneNumber().subscriberNumber(10);
-        String dateOfBirth = "01";
-        String monthOfBirth = "January";
-        String yearOfBirth = "1991";
-        String subjects = "Computer Science";
-        String hobbies1 = "Sports";
-        String hobbies2 = "Reading";
-        String pictureName = "toolsqa.jpg";
-        String address = faker.address().streetAddress();
-        String state = "Haryana";
-        String city = "Karnal";
-
         registrationFormPage
                 .openPage()
-                .typeFirstName(firstName)
-                .typeLastName(lastName)
-                .typeEmail(email)
-                .chooseGender(gender)
-                .typeMobilePhone(mobilePhone)
-                .setDateOfBirth(dateOfBirth, monthOfBirth, yearOfBirth)
-                .typeSubjects(subjects)
-                .chooseHobbies(hobbies1)
-                .chooseHobbies(hobbies2)
-                .uploadPicture(pictureName)
-                .typeCurrentAddress(address)
-                .selectState(state)
-                .selectCity(city)
+                .typeFirstName(studentData.firstName)
+                .typeLastName(studentData.lastName)
+                .typeEmail(studentData.email)
+                .chooseGender(studentData.gender)
+                .typeMobilePhone(studentData.mobilePhone)
+                .setDateOfBirth(studentData.dateOfBirth, studentData.monthOfBirth, studentData.yearOfBirth)
+                .typeSubjects(studentData.subjects)
+                .chooseHobbies(studentData.hobbies1)
+                .chooseHobbies(studentData.hobbies2)
+                .uploadPicture(studentData.pictureName)
+                .typeCurrentAddress(studentData.address)
+                .selectState(studentData.state)
+                .selectCity(studentData.city)
                 .submitForm();
 
         registrationFormPage
                 .checkResultsTitle()
+                // с коллекции
+                .checkResultsValue();
+                /* без колекции
                 .checkResultsValue("Student Name", firstName + " " + lastName)
                 .checkResultsValue("Student Email", email)
                 .checkResultsValue("Gender", gender)
@@ -56,5 +44,6 @@ public class PracticeFormTests extends TestBase {
                 .checkResultsValue("Picture", pictureName)
                 .checkResultsValue("Address", address)
                 .checkResultsValue("State and City", state + " " + city);
+                */
     }
 }
