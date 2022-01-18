@@ -4,11 +4,13 @@ import guru.qa.pages.RegistrationFormPage;
 import guru.qa.testData.StudentData;
 import io.qameta.allure.Owner;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import static io.qameta.allure.Allure.step;
 
 @Owner("pro100Nurs")
+@Tag("practiceFormTest")
 public class PracticeFormTests extends TestBase {
 
     RegistrationFormPage registrationFormPage = new RegistrationFormPage();
