@@ -4,10 +4,10 @@ import com.github.javafaker.Faker;
 
 public class StudentData {
 
-    Faker faker = new Faker();
+    static Faker faker = new Faker();
 
     /* Тестовые данные для формы */
-    public String
+    public static String
             firstName = faker.name().firstName(),
             lastName = faker.name().lastName(),
             email = faker.internet().emailAddress(),

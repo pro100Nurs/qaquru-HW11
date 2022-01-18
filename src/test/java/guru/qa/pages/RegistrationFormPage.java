@@ -9,13 +9,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.codeborne.selenide.Condition.text;
-import static com.codeborne.selenide.Selectors.byXpath;
 import static com.codeborne.selenide.Selenide.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class RegistrationFormPage {
-
-    StudentData studentData = new StudentData();
 
     private final String MODAL_TITLE = "Thanks for submitting the form";
 
@@ -101,7 +98,7 @@ public class RegistrationFormPage {
 
     public RegistrationFormPage uploadPicture(String pictureName) {
         // Загрузка Picture
-        uploadPictureButton.uploadFile(new File("src/test/resources/" + pictureName));
+        uploadPictureButton.uploadFile(new File("src/test/resources/img/" + pictureName));
         return this;
     }
 
@@ -139,33 +136,24 @@ public class RegistrationFormPage {
         return this;
     }
 
-    /* метод без коллекции
-    public RegistrationFormPage checkResultsValue(String label, String value) {
-        // Проверка данные
-        $(byXpath("//td[text()='" + label + "']/following-sibling::td")).shouldHave(text(value));
-        return this;
-    }
-    */
-
     // проверка с коллекции
-    private Map<String, String> expectedStudentData = new HashMap<String, String>()
-    {{
-        put("Student Name", studentData.firstName + " " + studentData.lastName);
-        put("Student Email", studentData.email);
-        put("Gender", studentData.gender);
-        put("Mobile", studentData.mobilePhone);
-        put("Date of Birth", studentData.dateOfBirth + " " + studentData.monthOfBirth + "," + studentData.yearOfBirth);
-        put("Subjects", studentData.subjects);
-        put("Hobbies", studentData.hobbies1 + ", " + studentData.hobbies2);
-        put("Picture", studentData.pictureName);
-        put("Address", studentData.address);
-        put("State and City", studentData.state + " " + studentData.city);
+    private Map<String, String> expectedStudentData = new HashMap<String, String>() {{
+        put("Student Name", StudentData.firstName + " " + StudentData.lastName);
+        put("Student Email", StudentData.email);
+        put("Gender", StudentData.gender);
+        put("Mobile", StudentData.mobilePhone);
+        put("Date of Birth", StudentData.dateOfBirth + " " + StudentData.monthOfBirth + "," + StudentData.yearOfBirth);
+        put("Subjects", StudentData.subjects);
+        put("Hobbies", StudentData.hobbies1 + ", " + StudentData.hobbies2);
+        put("Picture", StudentData.pictureName);
+        put("Address", StudentData.address);
+        put("State and City", StudentData.state + " " + StudentData.city);
     }};
 
     public RegistrationFormPage checkResultsValue() {
         // Проверка данные
         tableLines.snapshot();
-        for (SelenideElement tableLine: tableLines) {
+        for (SelenideElement tableLine : tableLines) {
             String key = tableLine.$("td").text();
             String expectedValue = expectedStudentData.get(key);
             String actualValue = tableLine.$("td", 1).text();
@@ -173,5 +161,4 @@ public class RegistrationFormPage {
         }
         return this;
     }
-
 }

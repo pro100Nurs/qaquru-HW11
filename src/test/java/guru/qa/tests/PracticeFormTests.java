@@ -2,48 +2,67 @@ package guru.qa.tests;
 
 import guru.qa.pages.RegistrationFormPage;
 import guru.qa.testData.StudentData;
+import io.qameta.allure.Owner;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import static io.qameta.allure.Allure.step;
+
+@Owner("pro100Nurs")
 public class PracticeFormTests extends TestBase {
 
     RegistrationFormPage registrationFormPage = new RegistrationFormPage();
-    StudentData studentData = new StudentData();
 
     @Test
+    @DisplayName("Fill student registration form")
     void fillStudentRegForm() {
+        step("Open students registration form", () -> {
+            registrationFormPage
+                    .openPage();
+        });
 
-        registrationFormPage
-                .openPage()
-                .typeFirstName(studentData.firstName)
-                .typeLastName(studentData.lastName)
-                .typeEmail(studentData.email)
-                .chooseGender(studentData.gender)
-                .typeMobilePhone(studentData.mobilePhone)
-                .setDateOfBirth(studentData.dateOfBirth, studentData.monthOfBirth, studentData.yearOfBirth)
-                .typeSubjects(studentData.subjects)
-                .chooseHobbies(studentData.hobbies1)
-                .chooseHobbies(studentData.hobbies2)
-                .uploadPicture(studentData.pictureName)
-                .typeCurrentAddress(studentData.address)
-                .selectState(studentData.state)
-                .selectCity(studentData.city)
-                .submitForm();
+        step("Fill the Practice form", () -> {
+            step("Input first name, last name, email, gender and phone number", () -> {
+                registrationFormPage
+                        .typeFirstName(StudentData.firstName)
+                        .typeLastName(StudentData.lastName)
+                        .typeEmail(StudentData.email)
+                        .chooseGender(StudentData.gender)
+                        .typeMobilePhone(StudentData.mobilePhone);
+            });
+            step("Set date", () -> {
+                registrationFormPage
+                        .setDateOfBirth(StudentData.dateOfBirth, StudentData.monthOfBirth, StudentData.yearOfBirth);
+            });
+            step("Set subjects", () -> {
+                registrationFormPage
+                        .typeSubjects(StudentData.subjects);
+            });
+            step("Set hobbies", () -> {
+                registrationFormPage
+                        .chooseHobbies(StudentData.hobbies1)
+                        .chooseHobbies(StudentData.hobbies2);
+            });
+            step("Upload image", () -> {
+                registrationFormPage
+                        .uploadPicture(StudentData.pictureName);
+            });
+            step("Set address", () -> {
+                registrationFormPage
+                        .typeCurrentAddress(StudentData.address)
+                        .selectState(StudentData.state)
+                        .selectCity(StudentData.city);
+            });
+            step("Submit form", () -> {
+                registrationFormPage
+                        .submitForm();
+            });
+        });
 
-        registrationFormPage
-                .checkResultsTitle()
-                // с коллекции
-                .checkResultsValue();
-                /* без колекции
-                .checkResultsValue("Student Name", firstName + " " + lastName)
-                .checkResultsValue("Student Email", email)
-                .checkResultsValue("Gender", gender)
-                .checkResultsValue("Mobile", mobilePhone)
-                .checkResultsValue("Date of Birth", dateOfBirth + " " + monthOfBirth + "," + yearOfBirth)
-                .checkResultsValue("Subjects", subjects)
-                .checkResultsValue("Hobbies", hobbies1 + ", " + hobbies2)
-                .checkResultsValue("Picture", pictureName)
-                .checkResultsValue("Address", address)
-                .checkResultsValue("State and City", state + " " + city);
-                */
+        step("Verify successful form submit", () -> {
+            registrationFormPage
+                    .checkResultsTitle()
+                    .checkResultsValue();
+        });
     }
 }
