@@ -17,10 +17,10 @@ public class TestBase {
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
         Configuration.startMaximized = true;
 
-        String url = System.getProperty("url", "65.108.161.82:4444/wd/hub/");
+        String url = System.getProperty("url", "65.108.161.82:4444");
         String login = OwnerTests.credentials.login();
         String password = OwnerTests.credentials.password();
-        Configuration.remote = format("http://%s:%s@%s", login, password, url);
+        Configuration.remote = format("http://%s:%s@%s/wd/hub/", login, password, url);
 
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability("enableVNC", true);
